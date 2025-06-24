@@ -1,0 +1,79 @@
+<h1>Split.gg</h1>
+
+<%= form_with url: "#", method: :post, local: true do %>
+  <div class="teams-container">
+    <!-- チーム A -->
+    <div class="team team-left">
+      <h2>チーム A</h2>
+      <% 5.times do |i| %>
+        <div class="player-row">
+          <label for="players_<%= i %>_summoner_name">サモナー名 <%= i + 1 %></label>
+          <input
+            type="text"
+            id="players_<%= i %>_summoner_name"
+            name="players[<%= i %>][summoner_name]"
+            required
+            placeholder="例: Faker"
+          />
+
+          <label for="players_<%= i %>_tag">タグ</label>
+          <input
+            type="text"
+            id="players_<%= i %>_tag"
+            name="players[<%= i %>][tag]"
+            required
+            placeholder="例: jp1"
+            class="tag-input"
+          />
+
+          <select name="players[<%= i %>][rank]" required>
+            <option value="" disabled selected>ランク選択</option>
+            <% ['Iron','Bronze','Silver','Gold','Platinum','Diamond','Master','Grandmaster','Challenger'].each do |rank| %>
+              <option value="<%= rank %>"><%= rank %></option>
+            <% end %>
+          </select>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- チーム B -->
+    <div class="team team-right">
+      <h2>チーム B</h2>
+      <% 5.times do |i| %>
+        <% j = i + 5 %>
+        <div class="player-row">
+          <label for="players_<%= j %>_summoner_name">サモナー名 <%= j + 1 %></label>
+          <input
+            type="text"
+            id="players_<%= j %>_summoner_name"
+            name="players[<%= j %>][summoner_name]"
+            required
+            placeholder="例: Uzi"
+          />
+
+          <label for="players_<%= j %>_tag">タグ</label>
+          <input
+            type="text"
+            id="players_<%= j %>_tag"
+            name="players[<%= j %>][tag]"
+            required
+            placeholder="例: jp2"
+            class="tag-input"
+          />
+
+          <select name="players[<%= j %>][rank]" required>
+            <option value="" disabled selected>ランク選択</option>
+            <% ['Iron','Bronze','Silver','Gold','Platinum','Diamond','Master','Grandmaster','Challenger'].each do |rank| %>
+              <option value="<%= rank %>"><%= rank %></option>
+            <% end %>
+          </select>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button type="submit" id="create-team">チーム作成</button>
+    <button type="button" id="save">保存</button>
+  </div>
+<% end %>

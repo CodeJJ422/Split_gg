@@ -1,0 +1,101 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  background-color: #f9f9f9;
+  overflow-x: auto;
+}
+
+.teams-container {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.team {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  min-width: 280px;
+  box-sizing: border-box;
+}
+
+.team h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.player-row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.player-row label {
+  font-weight: bold;
+}
+
+.player-row input[type="text"] {
+  flex: 1 1 auto;
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.tag-input {
+  width: 100px;
+}
+
+.player-row select {
+  flex: 0 0 120px;
+  padding: 0.4rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+.buttons {
+  text-align: center;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+button#create-team {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button#create-team:hover {
+  background-color: #45a049;
+}
+
+button#save {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button#save:hover {
+  background-color: #1976d2;
+}
