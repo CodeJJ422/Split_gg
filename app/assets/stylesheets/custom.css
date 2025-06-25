@@ -68,6 +68,18 @@ body {
   gap: 1rem;
 }
 
+button#get-rank {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 button#create-team {
   background-color: #4CAF50;
   color: white;

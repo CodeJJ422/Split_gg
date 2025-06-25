@@ -12,7 +12,6 @@
             type="text"
             id="players_<%= i %>_summoner_name"
             name="players[<%= i %>][summoner_name]"
-            required
             placeholder="例: Faker"
           />
 
@@ -21,12 +20,11 @@
             type="text"
             id="players_<%= i %>_tag"
             name="players[<%= i %>][tag]"
-            required
             placeholder="例: jp1"
             class="tag-input"
           />
 
-          <select name="players[<%= i %>][rank]" required>
+          <select name="players[<%= i %>][rank]" >
             <option value="" disabled selected>ランク選択</option>
             <% ['Iron','Bronze','Silver','Gold','Platinum','Diamond','Master','Grandmaster','Challenger'].each do |rank| %>
               <option value="<%= rank %>"><%= rank %></option>
@@ -47,7 +45,6 @@
             type="text"
             id="players_<%= j %>_summoner_name"
             name="players[<%= j %>][summoner_name]"
-            required
             placeholder="例: Uzi"
           />
 
@@ -56,12 +53,11 @@
             type="text"
             id="players_<%= j %>_tag"
             name="players[<%= j %>][tag]"
-            required
             placeholder="例: jp2"
             class="tag-input"
           />
 
-          <select name="players[<%= j %>][rank]" required>
+          <select name="players[<%= j %>][rank]" >
             <option value="" disabled selected>ランク選択</option>
             <% ['Iron','Bronze','Silver','Gold','Platinum','Diamond','Master','Grandmaster','Challenger'].each do |rank| %>
               <option value="<%= rank %>"><%= rank %></option>
@@ -73,6 +69,7 @@
   </div>
 
   <div class="buttons">
+    <button type="button" id="get-rank">ランク取得</button>
     <button type="submit" id="create-team">チーム作成</button>
     <button type="button" id="save">保存</button>
   </div>
