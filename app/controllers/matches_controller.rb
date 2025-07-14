@@ -17,11 +17,10 @@ class MatchesController < ApplicationController
   end
 
   def get_puuid
-    encoded_player_name = URI.encode_www_form_component(params[:player_name])
+    encoded_player_name = URI.encode_www_form_component(params[:player_name]).gsub("+", "%20")
     encoded_player_tag = URI.encode_www_form_component(params[:player_tag])
     account_url = "https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/#{encoded_player_name}/#{encoded_player_tag}"
     response = HTTParty.get(account_url, headers: { "X-Riot-Token" => @api_key })
-
     if response.code == 200
       data = JSON.parse(response.body)
       @puuid = data["puuid"]
@@ -39,7 +38,7 @@ class MatchesController < ApplicationController
       leagues = JSON.parse(rank_response.body)
       solo_rank = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
       if solo_rank
-        puts "#{solo_rank['tier']}#{solo_rank['rank']}"
+        puts "あなたのランクは#{solo_rank['tier']}#{solo_rank['rank']}です"
       else
         puts "RANKED_SOLO_5x5 のデータが見つかりません。"
       end
