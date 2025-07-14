@@ -27,7 +27,7 @@
           <select name="players[<%= i %>][rank]" id="players_<%= i %>_rank">
             <option value="" disabled selected>ランク選択</option>
             <option value="UNRANKED">UNRANKED</option>
-            <% tiers_with_division = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'] %>
+            <% tiers_with_division = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Emerald', 'Diamond'] %>
             <% tiers_without_division = ['Master', 'Grandmaster', 'Challenger'] %>
 
             <% tiers_with_division.each do |tier| %>
@@ -70,7 +70,7 @@
           <select name="players[<%= j %>][rank]" >
             <option value="" disabled selected>ランク選択</option>
             <option value="UNRANKED">UNRANKED</option>
-            <% tiers_with_division = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'] %>
+            <% tiers_with_division = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Emerald', 'Diamond'] %>
             <% tiers_without_division = ['Master', 'Grandmaster', 'Challenger'] %>
 
             <% tiers_with_division.each do |tier| %>

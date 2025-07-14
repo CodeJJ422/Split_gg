@@ -16,6 +16,16 @@ const getRank = () => {
     XHR.setRequestHeader("X-CSRF-Token", csrfToken);
     
     XHR.send(formData);
+
+    XHR.onload = () => {
+      if (XHR.status === 200) {
+        const response = XHR.response;
+        const soloRank = response.solo_rank;
+        console.log(soloRank)
+      } else {
+        alert("ランクの取得に失敗しました。");
+      }
+    };
   });
 };
 

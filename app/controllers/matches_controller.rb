@@ -35,12 +35,9 @@ class MatchesController < ApplicationController
 
     if rank_response.code == 200
       leagues = JSON.parse(rank_response.body)
-      solo_rank = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
-      if solo_rank
-        puts "あなたのランクは#{solo_rank['tier']}#{solo_rank['rank']}です"
-      else
-        puts "RANKED_SOLO_5x5 のデータが見つかりません。"
-      end
+      ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
+      solo_rank = "#{ranked['tier']}#{ranked['rank']}"
+      render json: { solo_rank: solo_rank } #JavaScriptに返す
     else
       puts "ランク情報取得失敗: #{rank_response.body}"
     end
