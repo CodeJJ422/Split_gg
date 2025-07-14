@@ -27,7 +27,6 @@ class MatchesController < ApplicationController
     else
       puts "エラー: #{response.code}"
     end
-
   end
 
   def get_rank
