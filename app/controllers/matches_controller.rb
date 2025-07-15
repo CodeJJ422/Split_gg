@@ -34,12 +34,16 @@ class MatchesController < ApplicationController
     rank_response = HTTParty.get(rank_url, headers: { "X-Riot-Token" => @api_key })
 
     if rank_response.code == 200
-      leagues = JSON.parse(rank_response.body)
-      ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
-      solo_rank = "#{ranked['tier']}#{ranked['rank']}"
-      render json: { solo_rank: solo_rank } #JavaScriptに返す
+      unless rank_response.empty?
+        leagues = JSON.parse(rank_response.body)
+        ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
+        solo_rank = "#{ranked['tier']}#{ranked['rank']}"
+        render json: { solo_rank: solo_rank } #JavaScriptに返す
+      else
+        render json: { solo_rank: "unranked" } #JavaScriptに返す
+      end
     else
-      puts "ランク情報取得失敗: #{rank_response.body}"
+      puts "ランク情報取得失敗: #{response.code}"
     end
   end
 

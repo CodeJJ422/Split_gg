@@ -26,17 +26,22 @@
 
           <select name="players[<%= i %>][rank]" id="players_<%= i %>_rank">
             <option value="" disabled selected>ランク選択</option>
-            <option value="UNRANKED">UNRANKED</option>
-            <% tiers_with_division = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Emerald', 'Diamond'] %>
-            <% tiers_without_division = ['Master', 'Grandmaster', 'Challenger'] %>
+            <option value="unranked">ランクなし</option>
+            <%# divisionを付与するtier %>
+            <% @tiers_with_division = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Emerald', 'Diamond'] %>
+            <%# Iを付与するtier %>
+            <% @tiers_without_division = ['Master', 'Grandmaster', 'Challenger'] %>
+            <%# 数字をローマ数字に変更する %>
+            <% @roman_numerals = { 4 => "IV", 3 => "III", 2 => "II", 1 => "I" } %>
 
-            <% tiers_with_division.each do |tier| %>
+            <% @tiers_with_division.each do |tier| %>
               <% (4).downto(1) do |division| %>
-                <option value="<%= "#{tier.upcase}#{division}" %>"><%= "#{tier.upcase}#{division}" %></option>
+                <% roman = @roman_numerals[division] %>
+                <option value="<%= "#{tier.upcase}#{roman}" %>"><%= "#{tier.upcase}#{roman}" %></option>
               <% end %>
             <% end %>
 
-            <% tiers_without_division.each do |tier| %>
+            <% @tiers_without_division.each do |tier| %>
               <option value="<%= "#{tier.upcase}I" %>"><%= "#{tier.upcase}I" %></option>
             <% end %>
           </select>
@@ -67,19 +72,18 @@
             class="tag-input"
           />
 
-          <select name="players[<%= j %>][rank]" >
+          <select name="players[<%= j %>][rank]" id="players_<%= j %>_rank">
             <option value="" disabled selected>ランク選択</option>
-            <option value="UNRANKED">UNRANKED</option>
-            <% tiers_with_division = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Emerald', 'Diamond'] %>
-            <% tiers_without_division = ['Master', 'Grandmaster', 'Challenger'] %>
+            <option value="unranked">ランクなし</option>
 
-            <% tiers_with_division.each do |tier| %>
+            <% @tiers_with_division.each do |tier| %>
               <% (4).downto(1) do |division| %>
-                <option value="<%= "#{tier.upcase}#{division}" %>"><%= "#{tier.upcase}#{division}" %></option>
+                <% roman = @roman_numerals[division] %>
+                <option value="<%= "#{tier.upcase}#{roman}" %>"><%= "#{tier.upcase}#{roman}" %></option>
               <% end %>
             <% end %>
 
-            <% tiers_without_division.each do |tier| %>
+            <% @tiers_without_division.each do |tier| %>
               <option value="<%= "#{tier.upcase}I" %>"><%= "#{tier.upcase}I" %></option>
             <% end %>
           </select>

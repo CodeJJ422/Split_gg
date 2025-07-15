@@ -1,31 +1,54 @@
 const getRank = () => {
   const getBtn = document.getElementById("get-rank");
-  getBtn.addEventListener("click", (e) => {
+
+  getBtn.addEventListener("click", async (e) => {
     e.preventDefault();
-    const playerName = document.getElementById("players_0_summoner_name").value;
-    const playerTag = document.getElementById("players_0_tag").value;
 
-    const formData = new FormData();
-    formData.append("player_name", playerName);
-    formData.append("player_tag", playerTag);
-    const XHR = new XMLHttpRequest();
-    XHR.open("POST", "/matches", true);
-    XHR.responseType = "json";
+    for (let i = 0; i < 10; i++) {
+      const nameInput = document.getElementById(`players_${i}_summoner_name`);
+      const tagInput = document.getElementById(`players_${i}_tag`);
+      const rankSelect = document.getElementById(`players_${i}_rank`);
 
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-    XHR.setRequestHeader("X-CSRF-Token", csrfToken);
-    
-    XHR.send(formData);
+      if (!nameInput || !tagInput || !rankSelect) continue;
 
-    XHR.onload = () => {
-      if (XHR.status === 200) {
-        const response = XHR.response;
-        const soloRank = response.solo_rank;
-        console.log(soloRank)
-      } else {
-        alert("ランクの取得に失敗しました。");
+      const playerName = nameInput.value;
+      const playerTag = tagInput.value;
+
+      if (!playerName || !playerTag) continue;
+
+      const formData = new FormData();
+      formData.append("player_name", playerName);
+      formData.append("player_tag", playerTag);
+
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+      try {
+        const response = await fetch("/matches", {
+          method: "POST",
+          headers: {
+            "X-CSRF-Token": csrfToken
+          },
+          body: formData
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const soloRank = data.solo_rank;
+
+          if (soloRank && soloRank.toLowerCase() !== "unranked") {
+            // ランク情報があり、「unranked」ではない場合
+            rankSelect.value = soloRank.toUpperCase();
+          } else {
+             // ランク情報がない or "unranked" の場合
+            rankSelect.value = "unranked";
+          }
+        } else {
+          console.warn(`プレイヤー${i + 1} のランク取得に失敗`);
+        }
+      } catch (error) {
+        console.error("通信エラー", error);
       }
-    };
+    }
   });
 };
 
