@@ -12,7 +12,6 @@
             type="text"
             id="players_<%= i %>_summoner_name"
             name="players[<%= i %>][summoner_name]"
-            required
             placeholder="例: Faker"
           />
 
@@ -21,15 +20,29 @@
             type="text"
             id="players_<%= i %>_tag"
             name="players[<%= i %>][tag]"
-            required
             placeholder="例: jp1"
             class="tag-input"
           />
 
-          <select name="players[<%= i %>][rank]" required>
+          <select name="players[<%= i %>][rank]" id="players_<%= i %>_rank">
             <option value="" disabled selected>ランク選択</option>
-            <% ['Iron','Bronze','Silver','Gold','Platinum','Diamond','Master','Grandmaster','Challenger'].each do |rank| %>
-              <option value="<%= rank %>"><%= rank %></option>
+            <option value="unranked">ランクなし</option>
+            <%# divisionを付与するtier %>
+            <% @tiers_with_division = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Emerald', 'Diamond'] %>
+            <%# Iを付与するtier %>
+            <% @tiers_without_division = ['Master', 'Grandmaster', 'Challenger'] %>
+            <%# 数字をローマ数字に変更する %>
+            <% @roman_numerals = { 4 => "IV", 3 => "III", 2 => "II", 1 => "I" } %>
+
+            <% @tiers_with_division.each do |tier| %>
+              <% (4).downto(1) do |division| %>
+                <% roman = @roman_numerals[division] %>
+                <option value="<%= "#{tier.upcase}#{roman}" %>"><%= "#{tier.upcase}#{roman}" %></option>
+              <% end %>
+            <% end %>
+
+            <% @tiers_without_division.each do |tier| %>
+              <option value="<%= "#{tier.upcase}I" %>"><%= "#{tier.upcase}I" %></option>
             <% end %>
           </select>
         </div>
@@ -47,7 +60,6 @@
             type="text"
             id="players_<%= j %>_summoner_name"
             name="players[<%= j %>][summoner_name]"
-            required
             placeholder="例: Uzi"
           />
 
@@ -56,15 +68,23 @@
             type="text"
             id="players_<%= j %>_tag"
             name="players[<%= j %>][tag]"
-            required
             placeholder="例: jp2"
             class="tag-input"
           />
 
-          <select name="players[<%= j %>][rank]" required>
+          <select name="players[<%= j %>][rank]" id="players_<%= j %>_rank">
             <option value="" disabled selected>ランク選択</option>
-            <% ['Iron','Bronze','Silver','Gold','Platinum','Diamond','Master','Grandmaster','Challenger'].each do |rank| %>
-              <option value="<%= rank %>"><%= rank %></option>
+            <option value="unranked">ランクなし</option>
+
+            <% @tiers_with_division.each do |tier| %>
+              <% (4).downto(1) do |division| %>
+                <% roman = @roman_numerals[division] %>
+                <option value="<%= "#{tier.upcase}#{roman}" %>"><%= "#{tier.upcase}#{roman}" %></option>
+              <% end %>
+            <% end %>
+
+            <% @tiers_without_division.each do |tier| %>
+              <option value="<%= "#{tier.upcase}I" %>"><%= "#{tier.upcase}I" %></option>
             <% end %>
           </select>
         </div>
@@ -73,6 +93,7 @@
   </div>
 
   <div class="buttons">
+    <button type="button" id="get-rank">ランク取得</button>
     <button type="submit" id="create-team">チーム作成</button>
     <button type="button" id="save">保存</button>
   </div>
