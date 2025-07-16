@@ -1,7 +1,8 @@
 const getRank = () => {
-  const getBtn = document.getElementById("get-rank");
+  const getRank = document.getElementById("get-rank");
+  const createTeam = document.getElementById("create-team");
 
-  getBtn.addEventListener("click", async (e) => {
+  getRank.addEventListener("click", async (e) => {
     e.preventDefault();
 
     for (let i = 0; i < 10; i++) {
@@ -49,6 +50,11 @@ const getRank = () => {
         console.error("通信エラー", error);
       }
     }
+  });
+
+  createTeam.addEventListener("click", async (e) => {
+    e.preventDefault();
+    console.log("イベント発火")
   });
 };
 
