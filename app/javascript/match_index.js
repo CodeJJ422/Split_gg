@@ -1,6 +1,36 @@
-const getRank = () => {
+const match = () => {
   const getRank = document.getElementById("get-rank");
   const createTeam = document.getElementById("create-team");
+  const form = document.getElementById("team-form");
+
+  // 🔽 ここから localStorage の自動入力・保存処理を追加 🔽
+  for (let i = 0; i < 10; i++) {
+    const nameId = `players_${i}_summoner_name`;
+    const tagId = `players_${i}_tag`;
+    const nameKey = `player_${i}_summoner_name`;
+    const tagKey = `player_${i}_tag`;
+
+    const nameInput = document.getElementById(nameId);
+    const tagInput = document.getElementById(tagId);
+
+    // 入力欄に保存された値を復元
+    if (nameInput && localStorage.getItem(nameKey)) {
+      nameInput.value = localStorage.getItem(nameKey);
+    }
+    if (tagInput && localStorage.getItem(tagKey)) {
+      tagInput.value = localStorage.getItem(tagKey);
+    }
+
+    // 入力イベントで保存
+    nameInput?.addEventListener("input", () => {
+      localStorage.setItem(nameKey, nameInput.value);
+    });
+
+    tagInput?.addEventListener("input", () => {
+      localStorage.setItem(tagKey, tagInput.value);
+    });
+  }
+  // 🔼 ここまで localStorage 処理 🔼
 
   getRank.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -54,8 +84,30 @@ const getRank = () => {
 
   createTeam.addEventListener("click", async (e) => {
     e.preventDefault();
-    console.log("イベント発火")
+    
+    const formData = new FormData(form);
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+    try {
+      const response = await fetch("/teams", {
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": csrfToken
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("チーム分け成功:", data);
+        // チーム表示ロジックなどをここに追加
+      } else {
+        console.error("チーム分け失敗:", response.statusText);
+      }
+    } catch (error) {
+      console.error("通信エラー:", error);
+    }
   });
 };
 
-window.addEventListener("turbo:load", getRank);
+window.addEventListener("turbo:load", match);
