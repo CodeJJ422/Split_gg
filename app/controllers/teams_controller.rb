@@ -32,11 +32,37 @@ class TeamsController < ApplicationController
       "CHALLENGERI"   => 1300,
       "unranked"      => 10      # 任意調整可
     }
-
+      # 数値を格納したscoreのキーを追加する
     scored_players = players.map do |p|
       p[:score] = rank_scores[p["rank"] || "unranked"] || 10
       p
     end
+    # 最小スコア差を探す
+    min_diff = Float::INFINITY
+    best_team_a = []
+
+    # 0〜9のインデックス配列からすべての5人組み合わせを試す
+    (0...10).to_a.combination(5).each do |team_a_indexes|
+      team_a = team_a_indexes.map { |i| scored_players[i] }
+      team_b = (0...10).reject { |i| team_a_indexes.include?(i) }.map { |i| scored_players[i] }
+
+      sum_a = team_a.sum { |p| p[:score] }
+      sum_b = team_b.sum { |p| p[:score] }
+      diff = (sum_a - sum_b).abs
+
+      if diff < min_diff
+        min_diff = diff
+        best_team_a = team_a
+      end
+    end
+
+    best_team_b = scored_players - best_team_a
+
+    # JSONとして返す
+    render json: {
+      team_a: best_team_a,
+      team_b: best_team_b
+    }
   end
   
 end

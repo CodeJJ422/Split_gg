@@ -100,7 +100,37 @@ const match = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("チーム分け成功:", data);
-        // チーム表示ロジックなどをここに追加
+        // チームA（上5人）に反映
+        data.team_a.forEach((player, i) => {
+          const nameInput = document.getElementById(`players_${i}_summoner_name`);
+          const tagInput = document.getElementById(`players_${i}_tag`);
+          const rankSelect = document.getElementById(`players_${i}_rank`);
+
+          if (nameInput) nameInput.value = player.summoner_name || "";
+          if (tagInput) tagInput.value = player.tag || "";
+          if (rankSelect) rankSelect.value = player.rank;
+
+          // localStorage も更新
+          localStorage.setItem(`player_${i}_summoner_name`, player.summoner_name || "");
+          localStorage.setItem(`player_${i}_tag`, player.tag || "");
+        });
+
+          // チームB（下5人）に反映
+          data.team_b.forEach((player, i) => {
+            const j = i + 5;
+            const nameInput = document.getElementById(`players_${j}_summoner_name`);
+            const tagInput = document.getElementById(`players_${j}_tag`);
+            const rankSelect = document.getElementById(`players_${j}_rank`);
+
+            if (nameInput) nameInput.value = player.summoner_name || "";
+            if (tagInput) tagInput.value = player.tag || "";
+            if (rankSelect) rankSelect.value = player.rank;
+
+            // localStorage も更新
+            localStorage.setItem(`player_${j}_summoner_name`, player.summoner_name || "");
+            localStorage.setItem(`player_${j}_tag`, player.tag || "");
+          });
+          
       } else {
         console.error("チーム分け失敗:", response.statusText);
       }
