@@ -2,6 +2,9 @@ const match = () => {
   const getRank = document.getElementById("get-rank");
   const createTeam = document.getElementById("create-team");
   const form = document.getElementById("team-form");
+  const loadTeam1 = document.getElementById("load-team1");
+  const loadTeam2 = document.getElementById("load-team2");
+  const loadTeam3 = document.getElementById("load-team3");
 
   // 🔽 ここから localStorage の自動入力・保存処理を追加 🔽
   for (let i = 0; i < 10; i++) {
@@ -82,6 +85,10 @@ const match = () => {
     }
   });
 
+  let bestTeam1 = null;
+  let bestTeam2 = null;
+  let bestTeam3 = null;
+
   createTeam.addEventListener("click", async (e) => {
     e.preventDefault();
     
@@ -100,43 +107,62 @@ const match = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("チーム分け成功:", data);
-        // チームA（上5人）に反映
-        data.team_a.forEach((player, i) => {
-          const nameInput = document.getElementById(`players_${i}_summoner_name`);
-          const tagInput = document.getElementById(`players_${i}_tag`);
-          const rankSelect = document.getElementById(`players_${i}_rank`);
 
-          if (nameInput) nameInput.value = player.summoner_name || "";
-          if (tagInput) tagInput.value = player.tag || "";
-          if (rankSelect) rankSelect.value = player.rank;
+        bestTeam1 = data.best_team1;
+        bestTeam2 = data.best_team2;
+        bestTeam3 = data.best_team3;
 
-          // localStorage も更新
-          localStorage.setItem(`player_${i}_summoner_name`, player.summoner_name || "");
-          localStorage.setItem(`player_${i}_tag`, player.tag || "");
-        });
+        // 初期表示はbest_team1でOK
+        updateTeamInputs(bestTeam1.team_a, bestTeam1.team_b);
 
-          // チームB（下5人）に反映
-          data.team_b.forEach((player, i) => {
-            const j = i + 5;
-            const nameInput = document.getElementById(`players_${j}_summoner_name`);
-            const tagInput = document.getElementById(`players_${j}_tag`);
-            const rankSelect = document.getElementById(`players_${j}_rank`);
-
-            if (nameInput) nameInput.value = player.summoner_name || "";
-            if (tagInput) tagInput.value = player.tag || "";
-            if (rankSelect) rankSelect.value = player.rank;
-
-            // localStorage も更新
-            localStorage.setItem(`player_${j}_summoner_name`, player.summoner_name || "");
-            localStorage.setItem(`player_${j}_tag`, player.tag || "");
-          });
-          
       } else {
         console.error("チーム分け失敗:", response.statusText);
       }
     } catch (error) {
       console.error("通信エラー:", error);
     }
+  });
+
+  const updateTeamInputs = (teamA, teamB) => {
+    // チームA
+    teamA.forEach((player, i) => {
+      const nameInput = document.getElementById(`players_${i}_summoner_name`);
+      const tagInput = document.getElementById(`players_${i}_tag`);
+      const rankSelect = document.getElementById(`players_${i}_rank`);
+
+      if (nameInput) nameInput.value = player.summoner_name || "";
+      if (tagInput) tagInput.value = player.tag || "";
+      if (rankSelect) rankSelect.value = player.rank;
+
+      localStorage.setItem(`player_${i}_summoner_name`, player.summoner_name || "");
+      localStorage.setItem(`player_${i}_tag`, player.tag || "");
+    });
+
+    // チームB
+    teamB.forEach((player, i) => {
+      const j = i + 5;
+      const nameInput = document.getElementById(`players_${j}_summoner_name`);
+      const tagInput = document.getElementById(`players_${j}_tag`);
+      const rankSelect = document.getElementById(`players_${j}_rank`);
+
+      if (nameInput) nameInput.value = player.summoner_name || "";
+      if (tagInput) tagInput.value = player.tag || "";
+      if (rankSelect) rankSelect.value = player.rank;
+
+      localStorage.setItem(`player_${j}_summoner_name`, player.summoner_name || "");
+      localStorage.setItem(`player_${j}_tag`, player.tag || "");
+    });
+  };
+
+  // ボタンイベント登録
+  loadTeam1.addEventListener("click", () => {
+    if (bestTeam1) updateTeamInputs(bestTeam1.team_a, bestTeam1.team_b);
+  });
+  loadTeam2.addEventListener("click", () => {
+    if (bestTeam2) updateTeamInputs(bestTeam2.team_a, bestTeam2.team_b);
+  });
+  loadTeam3.addEventListener("click", () => {
+    if (bestTeam3) updateTeamInputs(bestTeam3.team_a, bestTeam3.team_b);
   });
 };
 

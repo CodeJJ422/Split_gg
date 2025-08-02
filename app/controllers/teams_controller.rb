@@ -37,32 +37,42 @@ class TeamsController < ApplicationController
       p[:score] = rank_scores[p["rank"] || "unranked"] || 10
       p
     end
-    # 最小スコア差を探す
-    min_diff = Float::INFINITY
-    best_team_a = []
 
-    # 0〜9のインデックス配列からすべての5人組み合わせを試す
+    unique_teams = Set.new
+    all_team_combinations = []
+
     (0...10).to_a.combination(5).each do |team_a_indexes|
+      team_b_indexes = (0...10).to_a - team_a_indexes
+
+      # 同じ組み合わせを入れ替えても1つとみなすために、小さい順に並べて保存
+      sorted = [team_a_indexes.sort, team_b_indexes.sort].sort
+
+      # 重複チェック
+      next unless unique_teams.add?(sorted)
+
       team_a = team_a_indexes.map { |i| scored_players[i] }
-      team_b = (0...10).reject { |i| team_a_indexes.include?(i) }.map { |i| scored_players[i] }
+      team_b = team_b_indexes.map { |i| scored_players[i] }
 
       sum_a = team_a.sum { |p| p[:score] }
       sum_b = team_b.sum { |p| p[:score] }
       diff = (sum_a - sum_b).abs
 
-      if diff < min_diff
-        min_diff = diff
-        best_team_a = team_a
-      end
+      all_team_combinations << { team_a: team_a, team_b: team_b, diff: diff }
     end
 
-    best_team_b = scored_players - best_team_a
+    # diffの昇順でソートし、上位3件を取得
+    top_3_teams = all_team_combinations.sort_by { |tc| tc[:diff] }.first(3)
 
-    # JSONとして返す
+    best_team_1 = top_3_teams[0]
+    best_team_2 = top_3_teams[1]
+    best_team_3 = top_3_teams[2]
+
+    #　JSONで3チームを返す
     render json: {
-      team_a: best_team_a,
-      team_b: best_team_b
+      best_team1: best_team_1,
+      best_team2: best_team_2,
+      best_team3: best_team_3
     }
   end
-  
+
 end
