@@ -61,11 +61,27 @@ body {
 }
 
 .buttons {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.functions {
   text-align: center;
   margin-top: 1.5rem;
   display: flex;
   justify-content: center;
   gap: 1rem;
+}
+
+.teams {
+  text-align: center;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  position: absolute;
+  right: 300px;
 }
 
 button#get-rank {
@@ -110,4 +126,16 @@ button#save {
 
 button#save:hover {
   background-color: #1976d2;
+}
+
+.load-team{
+  background-color: #70c573;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
