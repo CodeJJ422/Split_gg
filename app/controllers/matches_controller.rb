@@ -25,7 +25,7 @@ class MatchesController < ApplicationController
       data = JSON.parse(response.body)
       @puuid = data["puuid"]
     else
-      puts "エラー: #{response.code}"
+      puts "Pid取得エラー: #{response.code}"
     end
   end
 
@@ -42,8 +42,20 @@ class MatchesController < ApplicationController
       else
         render json: { solo_rank: "unranked" } #JavaScriptに返す
       end
+      get_favorite_champion
     else
-      puts "ランク情報取得失敗: #{response.code}"
+      puts "ランク情報取得エラー: #{rank_response.code}"
+    end
+  end
+
+  def get_favorite_champion
+    champion_url = "https://jp1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/#{@puuid}/top?count=1"
+    champion_response = HTTParty.get(champion_url, headers: { "X-Riot-Token" => @api_key })
+    if champion_response.code == 200
+      data = JSON.parse(champion_response.body)
+      puts data
+    else
+      puts "マスタリー取得エラー: #{champion_response.code}"
     end
   end
 

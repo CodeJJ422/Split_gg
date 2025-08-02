@@ -7,7 +7,12 @@
       <h2>チーム A</h2>
       <% 5.times do |i| %>
         <div class="player-row">
-          <label for="players_<%= i %>_summoner_name">サモナー名 <%= i + 1 %></label>
+          <label
+           for="players_<%= i %>_summoner_name"
+           class="summoner-label"
+           data-tooltip="得意チャンピオン">
+           サモナー名 <%= i + 1 %>
+          </label>
           <input
             type="text"
             id="players_<%= i %>_summoner_name"

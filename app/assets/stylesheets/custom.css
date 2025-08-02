@@ -139,3 +139,16 @@ button#save:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1000;
+  display: none;
+}
