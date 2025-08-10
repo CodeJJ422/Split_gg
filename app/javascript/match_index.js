@@ -166,27 +166,4 @@ const match = () => {
   });
 };
 
-
-  const tooltip = document.createElement("div");
-  tooltip.className = "tooltip";
-  document.body.appendChild(tooltip);
-
-  const labels = document.querySelectorAll(".summoner-label");
-
-  labels.forEach(label => {
-    label.addEventListener("mouseenter", (e) => {
-      tooltip.textContent = "得意チャンピオン";
-      tooltip.style.display = "block";
-    });
-
-    label.addEventListener("mousemove", (e) => {
-      tooltip.style.top = `${e.pageY + 10}px`;
-      tooltip.style.left = `${e.pageX + 10}px`;
-    });
-
-    label.addEventListener("mouseleave", () => {
-      tooltip.style.display = "none";
-    });
-  });
-
 window.addEventListener("turbo:load", match);

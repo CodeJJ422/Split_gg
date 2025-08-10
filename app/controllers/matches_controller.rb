@@ -7,8 +7,21 @@ class MatchesController < ApplicationController
   end
   
   def create
+    solo_rank = nil  # 先に宣言しておく
+    champion_image = nil
+
     get_puuid
-    get_rank
+
+    threads = []
+    threads << Thread.new { solo_rank = get_rank }  # データ返すだけ
+    threads << Thread.new { champion_image = get_favorite_champion }
+    threads.each(&:join)
+
+    render json: {
+      solo_rank: solo_rank,
+      champion_image: champion_image
+    }
+
   end
 
   private
@@ -33,29 +46,36 @@ class MatchesController < ApplicationController
     rank_url = "https://jp1.api.riotgames.com/lol/league/v4/entries/by-puuid/#{@puuid}"
     rank_response = HTTParty.get(rank_url, headers: { "X-Riot-Token" => @api_key })
 
-    if rank_response.code == 200
-      unless rank_response.empty?
-        leagues = JSON.parse(rank_response.body)
-        ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
-        solo_rank = "#{ranked['tier']}#{ranked['rank']}"
-        render json: { solo_rank: solo_rank } #JavaScriptに返す
-      else
-        render json: { solo_rank: "unranked" } #JavaScriptに返す
-      end
-      get_favorite_champion
-    else
-      puts "ランク情報取得エラー: #{rank_response.code}"
-    end
+    return "ランク取得エラー" unless rank_response.code == 200
+
+    leagues = JSON.parse(rank_response.body)
+    return "unranked" if leagues.empty?
+
+    ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
+    "#{ranked['tier']}#{ranked['rank']}"
   end
 
   def get_favorite_champion
-    champion_url = "https://jp1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/#{@puuid}/top?count=1"
-    champion_response = HTTParty.get(champion_url, headers: { "X-Riot-Token" => @api_key })
-    if champion_response.code == 200
-      data = JSON.parse(champion_response.body)
-      puts data
+    mastery_url = "https://jp1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/#{@puuid}/top?count=1"
+    mastery_response = HTTParty.get(mastery_url, headers: { "X-Riot-Token" => @api_key })
+
+    return "マスタリー取得エラー" unless mastery_response.code == 200
+    mastery = JSON.parse(mastery_response.body)
+
+    # 取得したデータが空でなければ処理
+    if mastery.any?
+      champion_id = mastery[0]['championId']
+      champion = Champion.find_by(champion_id: champion_id)
+      
+      if champion
+        return champion.image_url
+      else
+        puts "Champion ID #{champion_id} はDBに存在しません"
+        return nil
+      end
     else
-      puts "マスタリー取得エラー: #{champion_response.code}"
+      puts "マスタリー情報がありません"
+      return nil
     end
   end
 

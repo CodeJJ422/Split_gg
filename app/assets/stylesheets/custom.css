@@ -152,3 +152,16 @@ button#save:hover {
   z-index: 1000;
   display: none;
 }
+
+.champion-image-container {
+  width: 1cm;
+  height: 1cm;
+  display: inline-block;
+  margin-right: 0.5em;
+}
+
+.champion-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

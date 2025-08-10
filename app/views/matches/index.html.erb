@@ -8,9 +8,7 @@
       <% 5.times do |i| %>
         <div class="player-row">
           <label
-           for="players_<%= i %>_summoner_name"
-           class="summoner-label"
-           data-tooltip="得意チャンピオン">
+           for="players_<%= i %>_summoner_name">
            サモナー名 <%= i + 1 %>
           </label>
           <input
@@ -60,7 +58,10 @@
       <% 5.times do |i| %>
         <% j = i + 5 %>
         <div class="player-row">
-          <label for="players_<%= j %>_summoner_name">サモナー名 <%= j + 1 %></label>
+          <label
+           for="players_<%= j %>_summoner_name">
+           サモナー名 <%= j + 1 %>
+          </label>
           <input
             type="text"
             id="players_<%= j %>_summoner_name"
