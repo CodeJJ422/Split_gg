@@ -60,19 +60,29 @@ class TeamsController < ApplicationController
       all_team_combinations << { team_a: team_a, team_b: team_b, diff: diff }
     end
 
-    # diffの昇順でソートし、上位3件を取得
-    top_3_teams = all_team_combinations.sort_by { |tc| tc[:diff] }.first(3)
+    # diffの昇順でソート
+    sorted_combinations = all_team_combinations.sort_by { |tc| tc[:diff] }
 
-    best_team_1 = top_3_teams[0]
-    best_team_2 = top_3_teams[1]
-    best_team_3 = top_3_teams[2]
+    top_teams = []
+    sorted_combinations.each do |candidate|
+      # 既に選ばれたチームと比較して、team_aのメンバーが2人以上違うかチェック
+      is_different_enough = top_teams.all? do |chosen|
+        diff_count = (candidate[:team_a].map { |p| p["summoner_name"] } - chosen[:team_a].map { |p| p["summoner_name"] }).size
+        diff_count >= 2
+      end
 
-    # JSONで3チームを返す
+      top_teams << candidate if is_different_enough
+      break if top_teams.size >= 3
+    end
+
+    best_team_1, best_team_2, best_team_3 = top_teams
+
     render json: {
       best_team1: best_team_1,
       best_team2: best_team_2,
       best_team3: best_team_3
     }
+
   end
 
 end
