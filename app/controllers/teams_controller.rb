@@ -67,7 +67,7 @@ class TeamsController < ApplicationController
     best_team_2 = top_3_teams[1]
     best_team_3 = top_3_teams[2]
 
-    #　JSONで3チームを返す
+    # JSONで3チームを返す
     render json: {
       best_team1: best_team_1,
       best_team2: best_team_2,
