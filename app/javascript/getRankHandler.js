@@ -13,7 +13,6 @@ export function setupGetRankButton() {
 
       const playerName = nameInput.value;
       const playerTag = tagInput.value;
-      if (!playerName || !playerTag) continue;
 
       const formData = new FormData();
       formData.append("player_name", playerName);
@@ -35,7 +34,7 @@ export function setupGetRankButton() {
             ? soloRank.toUpperCase()
             : "unranked";
         } else {
-          console.warn(`プレイヤー${i + 1} のランク取得に失敗`);
+          console.warn(`正しいプレイヤー情報を入力してください。`);
         }
       } catch (error) {
         console.error("通信エラー", error);

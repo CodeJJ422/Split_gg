@@ -1,9 +1,20 @@
+h1 {
+  color: white;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 2rem auto;
   padding: 0 1rem;
   background-color: #f9f9f9;
-  overflow-x: auto;
+  min-height: 100vh;
+  background-color: #1a1a1a;
+  background-image:
+    linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  background-size: 20px 20px;
 }
 
 .teams-container {
@@ -62,26 +73,19 @@ body {
 
 .buttons {
   display: flex;
-  justify-content: center;
-  position: relative;
+  justify-content: space-around; /* 左右端に分ける */
+  align-items: center;
+  margin-top: 1.5rem;
 }
 
 .functions {
-  text-align: center;
-  margin-top: 1.5rem;
   display: flex;
-  justify-content: center;
   gap: 1rem;
 }
 
 .teams {
-  text-align: center;
-  margin-top: 1.5rem;
   display: flex;
-  justify-content: center;
   gap: 1rem;
-  position: absolute;
-  right: 300px;
 }
 
 button#get-rank {

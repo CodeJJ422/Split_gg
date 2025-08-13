@@ -9,19 +9,21 @@ class MatchesController < ApplicationController
   def create
     solo_rank = nil  # 先に宣言しておく
     champion_image = nil
+    begin
+      get_puuid
 
-    get_puuid
+      threads = []
+      threads << Thread.new { solo_rank = get_rank }  # データ返すだけ
+      threads << Thread.new { champion_image = get_favorite_champion }
+      threads.each(&:join)
 
-    threads = []
-    threads << Thread.new { solo_rank = get_rank }  # データ返すだけ
-    threads << Thread.new { champion_image = get_favorite_champion }
-    threads.each(&:join)
-
-    render json: {
-      solo_rank: solo_rank,
-      champion_image: champion_image
-    }
-
+      render json: {
+        solo_rank: solo_rank,
+        champion_image: champion_image
+      }
+    rescue => e
+      render json: { error: e.message }, status: :bad_request
+    end
   end
 
   private
@@ -38,7 +40,7 @@ class MatchesController < ApplicationController
       data = JSON.parse(response.body)
       @puuid = data["puuid"]
     else
-      puts "Pid取得エラー: #{response.code}"
+      raise "Puuid取得に失敗"
     end
   end
 
