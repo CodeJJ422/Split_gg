@@ -1,3 +1,21 @@
+// 双方向制御文字を削除する関数
+function removeBidiControls(str) {
+  return str.replace(/[\u202A-\u202E\u2066-\u2069]/g, '');
+}
+
+function extractTagAndSet(nameStr, tagInput) {
+  // nameStr は既にクリーニング済みの値が渡される想定なので
+  // const cleanedStr = removeBidiControls(nameStr); は削除
+
+  const regex = / #(.+?)がロビーに/;
+  const match = nameStr.match(regex);
+
+  if (match && tagInput) {
+    tagInput.value = match[1];
+  }
+  
+}
+
 export function setupLocalStorage() {
   for (let i = 0; i < 10; i++) {
     const nameId = `players_${i}_summoner_name`;
@@ -16,7 +34,19 @@ export function setupLocalStorage() {
     }
 
     nameInput?.addEventListener("input", () => {
+      // 入力値をクリーン化してから保存・表示
+      nameInput.value = removeBidiControls(nameInput.value);
+      extractTagAndSet(nameInput.value, tagInput);
+
+      //サモナー名を最適化
+      const index = nameInput.value.indexOf(' #');
+      if (index !== -1){
+        nameInput.value = nameInput.value.substring(0, index);
+      }
       localStorage.setItem(nameKey, nameInput.value);
+
+      //extractTagAndSetでタグの値を変えるので保存
+      localStorage.setItem(tagKey, tagInput.value);
     });
 
     tagInput?.addEventListener("input", () => {
