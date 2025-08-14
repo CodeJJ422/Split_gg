@@ -3,7 +3,6 @@ export function setupGetRankButton() {
   if (!getRank) return;
 
   getRank.addEventListener("click", async (e) => {
-    e.preventDefault();
 
     for (let i = 0; i < 10; i++) {
       const nameInput = document.getElementById(`players_${i}_summoner_name`);
@@ -11,8 +10,27 @@ export function setupGetRankButton() {
       const rankSelect = document.getElementById(`players_${i}_rank`);
       if (!nameInput || !tagInput || !rankSelect) continue;
 
+      const playerRow = nameInput.closest(".player-row");
+
+      // 既存のエラーメッセージがあれば削除
+      const oldError = playerRow.nextElementSibling;
+      if (oldError && oldError.classList.contains("error-message")) {
+        oldError.remove();
+      }
+
       const playerName = nameInput.value;
       const playerTag = tagInput.value;
+
+      // 未入力ならエラー表示してスキップ
+      if (!playerName || !playerTag) {
+        if (playerRow) {
+          const errorEl = document.createElement("div");
+          errorEl.className = "error-message";
+          errorEl.textContent = "サモナー名とタグを入力してください。";
+          playerRow.insertAdjacentElement("afterend", errorEl);
+        }
+        continue;
+      }
 
       const formData = new FormData();
       formData.append("player_name", playerName);
@@ -34,10 +52,22 @@ export function setupGetRankButton() {
             ? soloRank.toUpperCase()
             : "unranked";
         } else {
-          console.warn(`正しいプレイヤー情報を入力してください。`);
+          // サーバー側エラー時の表示
+          if (playerRow) {
+            const errorEl = document.createElement("div");
+            errorEl.className = "error-message";
+            errorEl.textContent = "正しいプレイヤー情報を入力してください。";
+            playerRow.insertAdjacentElement("afterend", errorEl);
+          }
         }
       } catch (error) {
         console.error("通信エラー", error);
+        if (playerRow) {
+          const errorEl = document.createElement("div");
+          errorEl.className = "error-message";
+          errorEl.textContent = "通信エラーが発生しました。";
+          playerRow.insertAdjacentElement("afterend", errorEl);
+        }
       }
     }
   });

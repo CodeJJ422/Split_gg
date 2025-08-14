@@ -43,7 +43,7 @@ body {
   display: flex;
   gap: 0.8rem;
   align-items: center;
-  margin-bottom: 0.8rem;
+  margin: 5px 0;
 }
 
 .player-row label {
@@ -73,7 +73,7 @@ body {
 
 .buttons {
   display: flex;
-  justify-content: space-around; /* 左右端に分ける */
+  justify-content: space-around;
   align-items: center;
   margin-top: 1.5rem;
 }
@@ -144,6 +144,14 @@ button#save:hover {
   transition: background-color 0.3s ease;
 }
 
+/* エラーメッセージ */
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  font-weight: bold;
+  white-space: nowrap;    /* 長いメッセージも1行で表示 */
+  margin-left: 105px;
+}
 
 
 /* 得意チャンピオン表示実装用 */
