@@ -66,6 +66,11 @@ group :test do
   gem "selenium-webdriver"
 end
 
+group :production do
+  gem 'unicorn', '6.1.0'
+end
+
 gem 'devise'
 gem 'pry-rails'
 gem 'httparty'
+
