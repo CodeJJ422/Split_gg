@@ -11,7 +11,7 @@
 #
 default: &default
   adapter: mysql2
-  encoding: utf8mb4
+  encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password:
@@ -50,6 +50,8 @@ test:
 #
 production:
   <<: *default
-  database: split_gg_production
-  username: split_gg
-  password: <%= ENV["SPLIT_GG_DATABASE_PASSWORD"] %>
+  adapter: mysql2
+  database: Split_gg_production
+  username: root
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  socket: /var/lib/mysql/mysql.sock
