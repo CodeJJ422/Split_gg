@@ -2,3 +2,6 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "match"
+import "localStorageHandler"
+import "getRankHandler"
+import "createTeamHandler"
