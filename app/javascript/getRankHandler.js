@@ -1,4 +1,4 @@
-export function setupGetRankButton() {
+const getRankHandler = () => {
   const getRank = document.getElementById("get-rank");
   if (!getRank) return;
 
@@ -71,4 +71,6 @@ export function setupGetRankButton() {
       }
     }
   });
-}
+};
+window.addEventListener("turbo:load", getRankHandler);
+

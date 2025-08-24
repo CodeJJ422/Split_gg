@@ -1,56 +1,59 @@
-// 双方向制御文字を削除する関数
-function removeBidiControls(str) {
-  return str.replace(/[\u202A-\u202E\u2066-\u2069]/g, '');
-}
+const localStorageHandler = () => {
 
-function extractTagAndSet(nameStr, tagInput) {
-  // nameStr は既にクリーニング済みの値が渡される想定なので
-  // const cleanedStr = removeBidiControls(nameStr); は削除
-
-  const regex = / #(.+?)がロビーに/;
-  const match = nameStr.match(regex);
-
-  if (match && tagInput) {
-    tagInput.value = match[1];
+  // 双方向制御文字を削除する関数
+  function removeBidiControls(str) {
+    return str.replace(/[\u202A-\u202E\u2066-\u2069]/g, '');
   }
-  
-}
 
-export function setupLocalStorage() {
-  for (let i = 0; i < 10; i++) {
-    const nameId = `players_${i}_summoner_name`;
-    const tagId = `players_${i}_tag`;
-    const nameKey = `player_${i}_summoner_name`;
-    const tagKey = `player_${i}_tag`;
+  function extractTagAndSet(nameStr, tagInput) {
+    // nameStr は既にクリーニング済みの値が渡される想定なので
+    // const cleanedStr = removeBidiControls(nameStr); は削除
 
-    const nameInput = document.getElementById(nameId);
-    const tagInput = document.getElementById(tagId);
+    const regex = / #(.+?)がロビーに/;
+    const match = nameStr.match(regex);
 
-    if (nameInput && localStorage.getItem(nameKey)) {
-      nameInput.value = localStorage.getItem(nameKey);
+    if (match && tagInput) {
+      tagInput.value = match[1];
     }
-    if (tagInput && localStorage.getItem(tagKey)) {
-      tagInput.value = localStorage.getItem(tagKey);
-    }
+    
+  }
+    for (let i = 0; i < 10; i++) {
+      const nameId = `players_${i}_summoner_name`;
+      const tagId = `players_${i}_tag`;
+      const nameKey = `player_${i}_summoner_name`;
+      const tagKey = `player_${i}_tag`;
 
-    nameInput?.addEventListener("input", () => {
-      // 入力値をクリーン化してから保存・表示
-      nameInput.value = removeBidiControls(nameInput.value);
-      extractTagAndSet(nameInput.value, tagInput);
+      const nameInput = document.getElementById(nameId);
+      const tagInput = document.getElementById(tagId);
 
-      //サモナー名を最適化
-      const index = nameInput.value.indexOf(' #');
-      if (index !== -1){
-        nameInput.value = nameInput.value.substring(0, index);
+      if (nameInput && localStorage.getItem(nameKey)) {
+        nameInput.value = localStorage.getItem(nameKey);
       }
-      localStorage.setItem(nameKey, nameInput.value);
+      if (tagInput && localStorage.getItem(tagKey)) {
+        tagInput.value = localStorage.getItem(tagKey);
+      }
 
-      //extractTagAndSetでタグの値を変えるので保存
-      localStorage.setItem(tagKey, tagInput.value);
-    });
+      nameInput?.addEventListener("input", () => {
+        // 入力値をクリーン化してから保存・表示
+        nameInput.value = removeBidiControls(nameInput.value);
+        extractTagAndSet(nameInput.value, tagInput);
 
-    tagInput?.addEventListener("input", () => {
-      localStorage.setItem(tagKey, tagInput.value);
-    });
+        //サモナー名を最適化
+        const index = nameInput.value.indexOf(' #');
+        if (index !== -1){
+          nameInput.value = nameInput.value.substring(0, index);
+        }
+        localStorage.setItem(nameKey, nameInput.value);
+
+        //extractTagAndSetでタグの値を変えるので保存
+        localStorage.setItem(tagKey, tagInput.value);
+      });
+
+      tagInput?.addEventListener("input", () => {
+        localStorage.setItem(tagKey, tagInput.value);
+      });
   }
-}
+
+};
+
+window.addEventListener("turbo:load", localStorageHandler);
