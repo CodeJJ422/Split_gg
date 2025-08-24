@@ -5,7 +5,7 @@ lock "~> 3.19.2"
 set :application, 'Split_gg'
 
 # どのリポジトリからアプリをpullするかを指定する
-set :repo_url,  'https://github.com/CodeJJ422/Split_gg.git'
+set :repo_url,  'git@github.com/CodeJJ422/Split_gg.git'
 set :branch, 'main'
 
 # バージョンが変わっても共通で参照するディレクトリを指定
