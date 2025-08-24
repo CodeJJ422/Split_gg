@@ -12,7 +12,6 @@ class ChampionLoader
   def self.load_all
     version = latest_version
     api_url = "https://ddragon.leagueoflegends.com/cdn/#{version}/data/ja_JP/champion.json"
-    binding.pry
     response = HTTParty.get(api_url)
     data = response.parsed_response
     champions = data['data']
