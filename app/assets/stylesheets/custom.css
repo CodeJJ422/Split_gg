@@ -2,6 +2,10 @@ h1 {
   color: white;
 }
 
+.subtitle {
+  font-size: 0.6em;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 2rem auto;
@@ -89,7 +93,7 @@ body {
 }
 
 button#get-rank {
-  background-color: black;
+  background-color: rgb(0, 69, 148);
   color: white;
   border: none;
   padding: 0.6rem 1.5rem;
@@ -117,7 +121,7 @@ button#create-team:hover {
 }
 
 button#save {
-  background-color: #2196F3;
+  background-color: #969799;
   color: white;
   border: none;
   padding: 0.6rem 1.5rem;
