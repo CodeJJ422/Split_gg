@@ -50,6 +50,13 @@
               <option value="<%= "#{tier.upcase}I" %>"><%= "#{tier.upcase}I" %></option>
             <% end %>
           </select>
+          
+          <!-- デフォルト非表示 -->
+          <img
+           name="players[<%= i %>][champion_img]" 
+           id="players_<%= i %>_champion_img"
+           src=""
+           class="champion-image-container" hidden>
         </div>
       <% end %>
     </div>
@@ -95,6 +102,11 @@
               <option value="<%= "#{tier.upcase}I" %>"><%= "#{tier.upcase}I" %></option>
             <% end %>
           </select>
+          <img
+           name="players[<%= j %>][champion_img]" 
+           id="players_<%= j %>_champion_img"
+           src=""
+           class="champion-image-container" hidden>
         </div>
       <% end %>
     </div>
@@ -104,6 +116,7 @@
       <button type="button" id="get-rank">ランク取得</button>
       <button type="button" id="create-team">チーム作成</button>
       <button type="button" id="save">保存(未実装)</button>
+      <button type="button" id="toggle-champion-images">得意チャンプ表示/非表示</button>
     </div>
     <div class="teams">
       <button type="button" id="load-team1" class="load-team">チーム1</button>

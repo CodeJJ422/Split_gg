@@ -93,7 +93,7 @@ body {
 }
 
 button#get-rank {
-  background-color: rgb(0, 69, 148);
+  background-color: #0e28c0;
   color: white;
   border: none;
   padding: 0.6rem 1.5rem;
@@ -102,6 +102,10 @@ button#get-rank {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+button#get-rank:hover {
+  background-color: #13219b;
 }
 
 button#create-team {
@@ -132,8 +136,21 @@ button#save {
   transition: background-color 0.3s ease;
 }
 
-button#save:hover {
-  background-color: #1976d2;
+button#toggle-champion-images {
+  background-color: #f39c12; /* オレンジ系にして差別化 */
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* ホバー時に少し色を濃くする */
+button#toggle-champion-images:hover {
+  background-color: #e67e22;
 }
 
 .load-team{
@@ -159,12 +176,15 @@ button#save:hover {
 
 
 /* 得意チャンピオン表示実装用 */
-/* .champion-image-container {
+.champion-image-container {
   width: 1cm;
   height: 1cm;
-  display: inline-block;
   margin-right: 0.5em;
-} */
+}
+
+.champion-image-container[src=""] {
+  display: none; /* src が空のimgは非表示 */
+}
 
 /* .champion-image-container img {
   width: 100%;

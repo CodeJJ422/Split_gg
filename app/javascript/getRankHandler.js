@@ -8,7 +8,8 @@ const getRankHandler = () => {
       const nameInput = document.getElementById(`players_${i}_summoner_name`);
       const tagInput = document.getElementById(`players_${i}_tag`);
       const rankSelect = document.getElementById(`players_${i}_rank`);
-      if (!nameInput || !tagInput || !rankSelect) continue;
+      const champion_image = document.getElementById(`players_${i}_champion_img`);
+      if (!nameInput || !tagInput || !rankSelect ) continue;
 
       const playerRow = nameInput.closest(".player-row");
 
@@ -51,6 +52,7 @@ const getRankHandler = () => {
           rankSelect.value = soloRank && soloRank.toLowerCase() !== "unranked"
             ? soloRank.toUpperCase()
             : "unranked";
+          champion_image.src = data.champion_image
         } else {
           // サーバー側エラー時の表示
           if (playerRow) {

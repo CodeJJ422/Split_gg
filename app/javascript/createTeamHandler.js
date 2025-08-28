@@ -9,9 +9,11 @@ const createTeamHandler = () => {
       const nameInput = document.getElementById(`players_${i}_summoner_name`);
       const tagInput = document.getElementById(`players_${i}_tag`);
       const rankSelect = document.getElementById(`players_${i}_rank`);
+      const champion_image = document.getElementById(`players_${i}_champion_img`);
       if (nameInput) nameInput.value = player.summoner_name || "";
       if (tagInput) tagInput.value = player.tag || "";
-      if (rankSelect) rankSelect.value = player.rank;
+      if (rankSelect) rankSelect.value = player.rank || "";
+      if (champion_image) champion_image.src = player.champion_img || "";
       localStorage.setItem(`player_${i}_summoner_name`, player.summoner_name || "");
       localStorage.setItem(`player_${i}_tag`, player.tag || "");
     });
@@ -21,9 +23,11 @@ const createTeamHandler = () => {
       const nameInput = document.getElementById(`players_${j}_summoner_name`);
       const tagInput = document.getElementById(`players_${j}_tag`);
       const rankSelect = document.getElementById(`players_${j}_rank`);
+      const champion_image = document.getElementById(`players_${j}_champion_img`);
       if (nameInput) nameInput.value = player.summoner_name || "";
       if (tagInput) tagInput.value = player.tag || "";
-      if (rankSelect) rankSelect.value = player.rank;
+      if (rankSelect) rankSelect.value = player.rank || "";
+      if (champion_image) champion_image.src = player.champion_img || "";
       localStorage.setItem(`player_${j}_summoner_name`, player.summoner_name || "");
       localStorage.setItem(`player_${j}_tag`, player.tag || "");
     });
@@ -36,6 +40,11 @@ const createTeamHandler = () => {
     createTeam.addEventListener("click", async (e) => {
       e.preventDefault();
       const formData = new FormData(form);
+      for (let i = 0; i < 10; i++) {
+        const champion_image = document.getElementById(`players_${i}_champion_img`);
+        const champion_image_url = champion_image ? champion_image.src : "";
+        formData.append(`players[${i}][champion_img]`,champion_image_url);
+      }
       const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
       try {
