@@ -55,10 +55,13 @@ const getRankHandler = () => {
           champion_image.src = data.champion_image
         } else {
           // サーバー側エラー時の表示
+          const data = await response.json();
+          const error = data.error;
+
           if (playerRow) {
             const errorEl = document.createElement("div");
             errorEl.className = "error-message";
-            errorEl.textContent = "正しいプレイヤー情報を入力してください。";
+            errorEl.textContent = error;
             playerRow.insertAdjacentElement("afterend", errorEl);
           }
         }

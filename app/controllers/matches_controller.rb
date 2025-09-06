@@ -40,7 +40,11 @@ class MatchesController < ApplicationController
       data = JSON.parse(response.body)
       @puuid = data["puuid"]
     else
-      raise "Puuid取得に失敗"
+      if response.code == 404
+        raise "正しいプレイヤー情報を入力してください"
+      else
+        raise "取得に失敗しました。管理者に問い合わせてください"
+      end
     end
   end
 
@@ -48,11 +52,12 @@ class MatchesController < ApplicationController
     rank_url = "https://jp1.api.riotgames.com/lol/league/v4/entries/by-puuid/#{@puuid}"
     rank_response = HTTParty.get(rank_url, headers: { "X-Riot-Token" => @api_key })
 
-    return "ランク取得エラー" unless rank_response.code == 200
-
-    leagues = JSON.parse(rank_response.body)
-    return "unranked" if leagues.empty?
-
+    if rank_response.code == 200
+      leagues = JSON.parse(rank_response.body)
+      return "unranked" if leagues.empty?
+    else
+      raise "ランク取得エラー"
+    end
     ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
     "#{ranked['tier']}#{ranked['rank']}"
   end
@@ -61,23 +66,27 @@ class MatchesController < ApplicationController
     mastery_url = "https://jp1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/#{@puuid}/top?count=1"
     mastery_response = HTTParty.get(mastery_url, headers: { "X-Riot-Token" => @api_key })
 
-    return "マスタリー取得エラー" unless mastery_response.code == 200
-    mastery = JSON.parse(mastery_response.body)
+    
+    if mastery_response.code == 200
+      mastery = JSON.parse(mastery_response.body)
 
-    # 取得したデータが空でなければ処理
-    if mastery.any?
-      champion_id = mastery[0]['championId']
-      champion = Champion.find_by(champion_id: champion_id)
-      
-      if champion
-        return champion.image_url
+      # 取得したデータが空でなければ処理
+      if mastery.any?
+        champion_id = mastery[0]['championId']
+        champion = Champion.find_by(champion_id: champion_id)
+        
+        if champion
+          return champion.image_url
+        else
+          puts "Champion ID #{champion_id} はDBに存在しません"
+          return nil
+        end
       else
-        puts "Champion ID #{champion_id} はDBに存在しません"
+        puts "マスタリー情報がありません"
         return nil
       end
     else
-      puts "マスタリー情報がありません"
-      return nil
+      raise "マスタリー取得エラー"
     end
   end
 
