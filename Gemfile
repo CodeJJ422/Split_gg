@@ -81,4 +81,5 @@ end
 gem 'devise'
 gem 'pry-rails'
 gem 'httparty'
+gem 'devise'
 
