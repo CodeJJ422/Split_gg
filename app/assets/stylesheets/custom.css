@@ -15,7 +15,7 @@
 /* ログイン/新規登録/ログアウトボタン 共通スタイル */
 .auth-links a {
   display: inline-block;
-  background-color: #0e28c0; /* 青系で一貫性 */
+  background-color: #0e28c0;
   color: white;
   padding: 0.4rem 1rem;
   margin-left: 0.5rem;
@@ -25,20 +25,17 @@
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-/* 最初のボタンにはmargin-leftを無効に */
 .auth-links a:first-child {
   margin-left: 0;
 }
 
-/* ホバー時 */
 .auth-links a:hover {
   background-color: #13219b;
   transform: translateY(-1px);
 }
 
-/* ログアウトボタンだけ色を変えたい場合 */
 .auth-links a[data-turbo-method="delete"] {
-  background-color: #d9534f; /* Bootstrap風の赤 */
+  background-color: #d9534f;
 }
 
 .auth-links a[data-turbo-method="delete"]:hover {
