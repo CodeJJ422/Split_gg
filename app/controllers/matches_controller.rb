@@ -60,7 +60,6 @@ class MatchesController < ApplicationController
     end
 
     solo_ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
-    binding.pry
     if solo_ranked.present?
       "#{solo_ranked['tier']}#{solo_ranked['rank']}"
     else
