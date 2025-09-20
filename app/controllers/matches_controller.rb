@@ -58,8 +58,14 @@ class MatchesController < ApplicationController
     else
       raise "ランク取得エラー"
     end
-    ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
-    "#{ranked['tier']}#{ranked['rank']}"
+
+    solo_ranked = leagues.find { |league| league["queueType"] == "RANKED_SOLO_5x5" }
+    binding.pry
+    if solo_ranked.present?
+      "#{solo_ranked['tier']}#{solo_ranked['rank']}"
+    else
+      "unranked"
+    end
   end
 
   def get_favorite_champion
