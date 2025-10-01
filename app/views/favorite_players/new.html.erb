@@ -2,11 +2,11 @@
   <h2>お気に入りプレイヤー一覧</h2>
 </div>
 <%= form_with model: @favorite_player, local: true do |f| %>
-  <div>
+  <div class="form-row">
     <%= f.label :summoner_name, "サモナー名" %>
     <%= f.text_field :summoner_name %>
   </div>
-  <div>
+  <div class="form-row">
     <%= f.label :tag, "タグ" %>
     <%= f.text_field :tag %>
   </div>

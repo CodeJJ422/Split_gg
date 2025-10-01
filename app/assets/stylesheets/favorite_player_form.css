@@ -1,0 +1,29 @@
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 600px;
+}
+
+.form-row label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+  color: #f0f0f0;
+}
+
+
+.form-row input[type="text"] {
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background-color: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-row input[type="text"]:focus {
+  outline: none;
+  border-color: #0e28c0;
+  box-shadow: 0 0 5px rgba(14, 40, 192, 0.5);
+}
