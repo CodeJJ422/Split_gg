@@ -1,0 +1,17 @@
+<div class="header_favorite_player">
+  <h2>お気に入りプレイヤー一覧</h2>
+</div>
+<%= form_with model: @favorite_player, local: true do |f| %>
+  <div>
+    <%= f.label :summoner_name, "サモナー名" %>
+    <%= f.text_field :summoner_name %>
+  </div>
+  <div>
+    <%= f.label :tag, "タグ" %>
+    <%= f.text_field :tag %>
+  </div>
+  <div class="favorite-actions">
+    <%= f.submit "追加", class: "btn btn-primary" %>
+    <%= link_to "戻る", favorite_players_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

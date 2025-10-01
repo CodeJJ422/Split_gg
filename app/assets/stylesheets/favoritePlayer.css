@@ -1,0 +1,50 @@
+.header_favorite_player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  padding: 16px;
+}
+
+/* 新規追加ボタン専用スタイル */
+.btn.btn-primary {
+  display: inline-block;
+  background-color: #0d6efd; /* 明るめのブルー */
+  color: white;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn.btn-primary:hover {
+  background-color: #0b5ed7; /* hoverで少し濃いブルー */
+  transform: translateY(-1px);
+}
+
+/* 戻るボタン専用スタイル */
+.btn.btn-secondary {
+  display: inline-block;
+  background-color: #6c757d; /* グレー系 */
+  color: white;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.main_contents {
+  background-color: white;
+  border-radius: 5px;
+}
